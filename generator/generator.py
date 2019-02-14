@@ -103,6 +103,22 @@ class TimeSeriesGenerator:
             value = record["value"]
             self.time_series["cnt"].iloc[start:end+1]= self.time_series["cnt"]+ value
 
+    def addTimestamp(self, configuration):
+        start = configuration["start"]
+        step = configuration["step"]
+        # Create season
+        self.time_series["index"] = self.time_series.index
+        self.time_series["timestamp"] = self.time_series["index"].apply(
+            lambda obs: start + obs*step )
+
+        self.time_series.set_index("timestamp", inplace=True)
+
+
+        # Drop dummy columns
+        self.time_series.drop("index", inplace=True, axis=1)
+        print(self.time_series.head())
+
+
     def plotTimeSeries(self):
         """
         Plot time series using linechart
@@ -142,7 +158,7 @@ class TimeSeriesGenerator:
         :param file_name: name of the file
         :return:
         """
-        self.time_series.to_csv(file_name, sep=',', index=False)
+        self.time_series.to_csv(file_name, sep=',', index=True)
         print(("Time series " + file_name + " saved."))
 
     def saveTimeSeries(self,configuration):
@@ -178,6 +194,8 @@ class TimeSeriesGenerator:
                 self.addBreaks(configuration=configuration[key])
             elif key == "meta":
                 print("Processing time serie " + configuration[key]["time_series_name"])
+            elif key == "timestamps":
+                self.addTimestamp(configuration=configuration[key])
             else:
                 raise ValueError('A key ' + key + " is not defined!")
 

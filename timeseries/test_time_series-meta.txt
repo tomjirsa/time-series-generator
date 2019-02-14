@@ -2,6 +2,7 @@ meta {'path': './timeseries/', 'time_series_name': 'test_time_series', 'number_o
 base_line {'base': 1000, 'variance': 200}
 trend {'slope': 0.5}
 season {'period': 100, 'height': 300}
+timestamps {'start': 0, 'step': 500}
 na_values {'ranges': [{'from': 10, 'to': 20}, {'from': 300, 'to': 400}]}
 annomalies [{'position': 150, 'coef': 3}, {'position': 450, 'coef': 0.1}]
 breaks [{'from': 500, 'to': 600, 'value': 400}, {'from': 700, 'to': 800, 'value': -500}]

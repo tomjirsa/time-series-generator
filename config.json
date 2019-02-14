@@ -17,6 +17,10 @@
         "period": 100,
         "height": 300
       },
+      "timestamps": {
+        "start": 0,
+        "step": 500
+      },
       "na_values": {
         "ranges": [
           {
