@@ -1,9 +1,9 @@
 {
   "time_series": [
     {
-      "meta":{
+      "meta": {
         "path": "./timeseries/",
-        "time_series_name": "test_time_series",
+        "time_series_name": "00-sample",
         "number_of_observations": 1000
       },
       "base_line": {
@@ -19,7 +19,7 @@
       },
       "timestamps": {
         "start": 0,
-        "step": 500
+        "step": 10
       },
       "na_values": {
         "ranges": [
@@ -43,7 +43,7 @@
           "coef": 0.1
         }
       ],
-      "breaks":[
+      "breaks": [
         {
           "from": 500,
           "to": 600,
@@ -55,7 +55,399 @@
           "value": -500
         }
       ]
+    },
+    {
+      "meta": {
+        "path": "./timeseries/",
+        "time_series_name": "01-base",
+        "number_of_observations": 10000
+      },
+      "base_line": {
+        "base": 1000,
+        "variance": 200
+      },
+            "timestamps": {
+        "start": 0,
+        "step": 10
+      }
+    },
+    {
+      "meta": {
+        "path": "./timeseries/",
+        "time_series_name": "02-trend",
+        "number_of_observations": 10000
+      },
+      "base_line": {
+        "base": 1000,
+        "variance": 200
+      },
+      "trend": {
+        "slope": 0.1
+      },
+      "timestamps": {
+        "start": 0,
+        "step": 10
+      }
+    },
+    {
+      "meta": {
+        "path": "./timeseries/",
+        "time_series_name": "03-season",
+        "number_of_observations": 10000
+      },
+      "base_line": {
+        "base": 1000,
+        "variance": 200
+      },
+      "season": {
+        "period": 200,
+        "height": 400
+      },
+      "timestamps": {
+        "start": 0,
+        "step": 10
+      }
+    },
+    {
+      "meta": {
+        "path": "./timeseries/",
+        "time_series_name": "04-trend-season",
+        "number_of_observations": 10000
+      },
+      "base_line": {
+        "base": 1000,
+        "variance": 200
+      },
+      "trend": {
+        "slope": 0.1
+      },
+      "season": {
+        "period": 200,
+        "height": 400
+      },
+      "timestamps": {
+        "start": 0,
+        "step": 10
+      }
+    },
+    {
+      "meta": {
+        "path": "./timeseries/",
+        "time_series_name": "05-base-NA",
+        "number_of_observations": 10000
+      },
+      "base_line": {
+        "base": 1000,
+        "variance": 200
+      },
+      "na_values": {
+        "ranges": [
+          {
+            "from": 2000,
+            "to": 2100
+          },
+          {
+            "from": 4000,
+            "to": 5000
+          }
+        ]
+      },
+      "timestamps": {
+        "start": 0,
+        "step": 10
+      }
+    },
+    {
+      "meta": {
+        "path": "./timeseries/",
+        "time_series_name": "06-base-anomaly",
+        "number_of_observations": 10000
+      },
+      "base_line": {
+        "base": 1000,
+        "variance": 200
+      },
+      "annomalies": [
+        {
+          "position": 2000,
+          "coef": 2
+        },
+        {
+          "position": 4000,
+          "coef": 4
+        },
+        {
+          "position": 4001,
+          "coef": 4
+        },
+        {
+          "position": 6000,
+          "coef": 0.05
+        }
+      ],
+      "timestamps": {
+        "start": 0,
+        "step": 10
+      }
+    },
+    {
+      "meta": {
+        "path": "./timeseries/",
+        "time_series_name": "07-base-break",
+        "number_of_observations": 10000
+      },
+      "base_line": {
+        "base": 1000,
+        "variance": 200
+      },
+      "breaks": [
+        {
+          "from": 1000,
+          "to": 1200,
+          "value": 600
+        },
+        {
+          "from": 4000,
+          "to": 5000,
+          "value": -500
+        },
+        {
+          "from": 6000,
+          "to": 6500,
+          "value": 600
+        },
+        {
+          "from": 6500,
+          "to": 7000,
+          "value": -500
+        }
+      ],
+      "timestamps": {
+        "start": 0,
+        "step": 10
+      }
+    },
+    {
+      "meta": {
+        "path": "./timeseries/",
+        "time_series_name": "08-base-trend-season-NA",
+        "number_of_observations": 10000
+      },
+      "base_line": {
+        "base": 1000,
+        "variance": 200
+      },
+      "trend": {
+        "slope": 0.1
+      },
+      "season": {
+        "period": 200,
+        "height": 400
+      },
+      "na_values": {
+        "ranges": [
+          {
+            "from": 2000,
+            "to": 2100
+          },
+          {
+            "from": 4000,
+            "to": 5000
+          }
+        ]
+      },
+      "timestamps": {
+        "start": 0,
+        "step": 10
+      }
+    },
+    {
+      "meta": {
+        "path": "./timeseries/",
+        "time_series_name": "09-base-trend-season-anomaly",
+        "number_of_observations": 10000
+      },
+      "base_line": {
+        "base": 1000,
+        "variance": 200
+      },
+      "trend": {
+        "slope": 0.1
+      },
+      "season": {
+        "period": 200,
+        "height": 400
+      },
+      "annomalies": [
+        {
+          "position": 2000,
+          "coef": 2
+        },
+        {
+          "position": 4000,
+          "coef": 4
+        },
+        {
+          "position": 4001,
+          "coef": 4
+        },
+        {
+          "position": 6000,
+          "coef": 0.05
+        }
+      ],
+      "timestamps": {
+        "start": 0,
+        "step": 10
+      }
+    },
+    {
+      "meta": {
+        "path": "./timeseries/",
+        "time_series_name": "10-base-trend-season-break",
+        "number_of_observations": 10000
+      },
+      "base_line": {
+        "base": 1000,
+        "variance": 200
+      },
+      "trend": {
+        "slope": 0.1
+      },
+      "season": {
+        "period": 200,
+        "height": 400
+      },
+      "breaks": [
+        {
+          "from": 1000,
+          "to": 1200,
+          "value": 600
+        },
+        {
+          "from": 4000,
+          "to": 5000,
+          "value": -500
+        },
+        {
+          "from": 6000,
+          "to": 6500,
+          "value": 600
+        },
+        {
+          "from": 6500,
+          "to": 7000,
+          "value": -500
+        }
+      ],
+      "timestamps": {
+        "start": 0,
+        "step": 10
+      }
+    },
+    {
+      "meta": {
+        "path": "./timeseries/",
+        "time_series_name": "11-base-trend-season-anomaly-regular",
+        "number_of_observations": 10000
+      },
+      "base_line": {
+        "base": 1000,
+        "variance": 200
+      },
+      "trend": {
+        "slope": 0.1
+      },
+      "season": {
+        "period": 200,
+        "height": 400
+      },
+      "annomalies": [
+        {
+          "position": 2100,
+          "coef": 3
+        },
+        {
+          "position": 2300,
+          "coef": 3
+        },
+        {
+          "position": 2500,
+          "coef": 3
+        },
+        {
+          "position": 2700,
+          "coef": 3
+        },
+        {
+          "position": 2900,
+          "coef": 3
+        },
+        {
+          "position": 3100,
+          "coef": 3
+        },
+        {
+          "position": 3300,
+          "coef": 3
+        },
+        {
+          "position": 3500,
+          "coef": 3
+        },
+        {
+          "position": 3700,
+          "coef": 3
+        },
+        {
+          "position": 3900,
+          "coef": 3
+        },
+        {
+          "position": 4100,
+          "coef": 3
+        },
+        {
+          "position": 4300,
+          "coef": 3
+        },
+        {
+          "position": 4500,
+          "coef": 3
+        },
+        {
+          "position": 4700,
+          "coef": 3
+        },
+        {
+          "position": 4900,
+          "coef": 3
+        },
+        {
+          "position": 5100,
+          "coef": 3
+        },
+        {
+          "position": 5300,
+          "coef": 3
+        },
+        {
+          "position": 5500,
+          "coef": 3
+        },
+        {
+          "position": 5700,
+          "coef": 3
+        },
+        {
+          "position": 5900,
+          "coef": 3
+        }
+      ],
+      "timestamps": {
+        "start": 0,
+        "step": 10
+      }
     }
-
   ]
 }
