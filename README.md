@@ -15,10 +15,10 @@ The generator of artificial time series for testing purposes.
 - **Missing Values** - missing observations put into the time series. Available parameters are:
   - `from`: start of the interval with the missing values.
   - `to`: end of the interval with the missing values.
-- **Annomalies**: adds anomalies to the time series. Available parameters are:
+- **Outliers**: adds anomalies to the time series. Available parameters are:
   - `position`: the index of the observation with an anomaly.
   - `coef`: the multiplier of the original observation to create an anomaly. 
-- **Changepoint**: adds a change point (change of level) of the time series. Available parameters are:
+- **Jumps**: adds a change point (change of level) of the time series. Available parameters are:
   - `from`: start of the interval with the changed level.
   - `to`: end of the interval with the changed level.
   - `value`: absolute value of the level change.
