@@ -69,8 +69,8 @@ for number in range(1, NUMBER_SERIES + 1):
     )
     configuration["breaks"][0]["value"] = np.random.randint(low=5, high=10)
 
-    generator.generateTimeSeries(configuration)
-    ts = generator.get_time_series_businesslike()
+    generator.generate(configuration)
+    ts = generator.get_business_like()
     ts.name = number
     series.append(ts)
 
@@ -80,5 +80,3 @@ prices_df.index.name = "date"
 
 # %%
 prices_df.plot()
-
-# %%

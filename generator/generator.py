@@ -13,7 +13,7 @@ class TimeSeriesGenerator:
         """
         self.number_of_observations = configuration["number_of_observations"]
 
-    def addBase(self,configuration):
+    def add_base(self,configuration):
         """
         Adds base line time series generated from the random distribution
         :param configuration: configuration of base_line, required keys are base, variance
@@ -26,7 +26,7 @@ class TimeSeriesGenerator:
         self.time_series["cnt"] = self.time_series["cnt"] + self.time_series["base"]
         self.time_series.drop("base", inplace=True, axis=1)
 
-    def addTrend(self,configuration):
+    def add_trend(self,configuration):
         """
         Adds linear trend to time series
         :param configuration: configuration of the trend, required key is "slope"
@@ -44,7 +44,7 @@ class TimeSeriesGenerator:
         self.time_series.drop("index", inplace=True, axis=1)
 
 
-    def addSeason(self,configuration):
+    def add_season(self,configuration):
         """
         Adds sinusoid season to a time series.
         :param configuration: configuration of the season required keys are period and height
@@ -64,7 +64,7 @@ class TimeSeriesGenerator:
         self.time_series.drop("season", inplace=True, axis=1)
         self.time_series.drop("index", inplace=True, axis=1)
 
-    def addNAValues(self,configuration):
+    def add_nan_values(self,configuration):
         """
         Add NA values in the defined interval to a time serie
         :param configuration: configuration of na_values, required keys are ranges. Ranges is an array of dict with "from" and "to" keywords
@@ -76,7 +76,7 @@ class TimeSeriesGenerator:
             end = range["to"]
             self.time_series["cnt"].iloc[start:end+1] = np.nan
 
-    def addAnomalies(self,configuration):
+    def add_outliers(self,configuration):
         """
         Adds anomalies on the specifed location to a time serie
         :param configuration: configuration of annomalies - an array of dicts {"position": <observation number of the anomaly>, "coef": <multiplyer of the original value at the position>}
@@ -88,7 +88,7 @@ class TimeSeriesGenerator:
             coeficient = anomaly["coef"]
             self.time_series["cnt"].iloc[position] = self.time_series["cnt"].iloc[position] * coeficient
 
-    def addBreaks(self, configuration):
+    def add_jumps(self, configuration):
         """
         Adds sudden change to time serie (all values in the range are increased by the given number)
         :param configuration: an array of dicts {"from": <start of the change>, "to": <end of the change>, "value": <value to increase the observations (for decrease use negative value>}
@@ -101,7 +101,7 @@ class TimeSeriesGenerator:
             value = record["value"]
             self.time_series["cnt"].iloc[start:end+1]= self.time_series["cnt"]+ value
 
-    def addTimestamp(self, configuration):
+    def add_timestamp(self, configuration):
         start = configuration["start"]
         step = configuration["step"]
         # Create season
@@ -117,7 +117,7 @@ class TimeSeriesGenerator:
         # print(self.time_series.head())
 
 
-    def plotTimeSeries(self):
+    def plot(self):
         """
         Plot time series using linechart
         :return:
@@ -125,9 +125,9 @@ class TimeSeriesGenerator:
         self.time_series.plot()
         plt.show()
 
-    def timeSeriesSavePlot(self, file_name):
+    def to_pdf(self, file_name):
         """
-        Save the plot to a file
+        Save the plot to a pdf file.
         :param file_name: name of the file saved
         :return:
         """
@@ -136,7 +136,7 @@ class TimeSeriesGenerator:
         plt.close("all")
         print("Time series plot " + file_name + " saved.")
 
-    def timeSeriesSaveMeta(self, file_name, configuration):
+    def save_meta(self, file_name, configuration):
         """
         Stores configuration of the generator of the time series
         :param file_name: name of the file
@@ -150,7 +150,7 @@ class TimeSeriesGenerator:
         file.close()
         print("Time series meta " + file_name + " saved.")
 
-    def timeSeriesToCsv(self, file_name):
+    def to_csv(self, file_name):
         """
         Save generated time series to a file. Index of the dataframe is not saved.
         :param file_name: name of the file
@@ -159,18 +159,18 @@ class TimeSeriesGenerator:
         self.time_series.to_csv(file_name, sep=',', index=True)
         print(("Time series " + file_name + " saved."))
 
-    def saveTimeSeries(self,configuration):
+    def save(self,configuration):
         """
         Saves all the information about time series. The saved information are time series in csv, meta information, and plot of the time series
         :param configuration: the entire configuration of the time series generator
         :return:
         """
         meta = configuration["meta"]
-        self.timeSeriesSavePlot(file_name=meta["path"] + meta["time_series_name"] + "-plot.pdf")
-        self.timeSeriesSaveMeta(file_name=meta["path"] + meta["time_series_name"] + "-meta.txt", configuration=configuration)
-        self.timeSeriesToCsv(file_name=meta["path"] + meta["time_series_name"] + ".csv")
+        self.to_pdf(file_name=meta["path"] + meta["time_series_name"] + "-plot.pdf")
+        self.save_meta(file_name=meta["path"] + meta["time_series_name"] + "-meta.txt", configuration=configuration)
+        self.to_csv(file_name=meta["path"] + meta["time_series_name"] + ".csv")
 
-    def generateTimeSeries(self, configuration):
+    def generate(self, configuration):
         """
         Generates the time series according to the configuration.
 
@@ -182,35 +182,35 @@ class TimeSeriesGenerator:
 
         for key in configuration:
             if key == "base_line":
-                self.addBase(configuration=configuration[key])
+                self.add_base(configuration=configuration[key])
             elif key == "trend":
-                self.addTrend(configuration=configuration[key])
+                self.add_trend(configuration=configuration[key])
             elif key == "season":
-                self.addSeason(configuration=configuration[key])
+                self.add_season(configuration=configuration[key])
             elif key == "na_values":
-                self.addNAValues(configuration=configuration[key])
+                self.add_nan_values(configuration=configuration[key])
             elif key == "annomalies":
-                self.addAnomalies(configuration=configuration[key])
+                self.add_outliers(configuration=configuration[key])
             elif key == "breaks":
-                self.addBreaks(configuration=configuration[key])
+                self.add_jumps(configuration=configuration[key])
             elif key == "meta":
                 pass
                 # print("Processing time serie " + configuration[key]["time_series_name"])
             elif key == "timestamps":
-                self.addTimestamp(configuration=configuration[key])
+                self.add_timestamp(configuration=configuration[key])
             else:
                 raise ValueError('A key ' + key + " is not defined!")
 
         #self.plotTimeSeries()
 
-    def getTimeSerie(self):
+    def get(self):
         """
         To return the time series
         :return: time series in pd.DataFrame
         """
         return self.time_series
 
-    def get_time_series_businesslike(self):
+    def get_business_like(self):
 
         _ts = self.time_series.copy()
 

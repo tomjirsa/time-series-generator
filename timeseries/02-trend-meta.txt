@@ -1,0 +1,4 @@
+meta {'path': './timeseries/', 'time_series_name': '02-trend', 'number_of_observations': 10000}
+base_line {'base': 1000, 'variance': 200}
+trend {'slope': 0.1}
+timestamps {'start': 0, 'step': 10}

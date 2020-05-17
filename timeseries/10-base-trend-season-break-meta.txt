@@ -1,0 +1,6 @@
+meta {'path': './timeseries/', 'time_series_name': '10-base-trend-season-break', 'number_of_observations': 10000}
+base_line {'base': 1000, 'variance': 200}
+trend {'slope': 0.1}
+season {'period': 200, 'height': 400}
+breaks [{'from': 1000, 'to': 1200, 'value': 600}, {'from': 4000, 'to': 5000, 'value': -500}, {'from': 6000, 'to': 6500, 'value': 600}, {'from': 6500, 'to': 7000, 'value': -500}]
+timestamps {'start': 0, 'step': 10}
