@@ -11,9 +11,7 @@ class TimeSeriesGenerator:
         """
         Creates initial time serie data frame
         """
-        number_of_observations = configuration["number_of_observations"]
-        self.time_series = pd.DataFrame({"cnt": np.zeros(number_of_observations)})
-
+        self.number_of_observations = configuration["number_of_observations"]
 
     def addBase(self,configuration):
         """
@@ -116,7 +114,7 @@ class TimeSeriesGenerator:
 
         # Drop dummy columns
         self.time_series.drop("index", inplace=True, axis=1)
-        print(self.time_series.head())
+        # print(self.time_series.head())
 
 
     def plotTimeSeries(self):
@@ -179,6 +177,9 @@ class TimeSeriesGenerator:
         :param configuration: dict - configuration of the time series
         :return:
         """
+        # Restart time series
+        self.time_series = pd.DataFrame({"cnt": np.zeros(self.number_of_observations)})
+
         for key in configuration:
             if key == "base_line":
                 self.addBase(configuration=configuration[key])
@@ -193,13 +194,14 @@ class TimeSeriesGenerator:
             elif key == "breaks":
                 self.addBreaks(configuration=configuration[key])
             elif key == "meta":
-                print("Processing time serie " + configuration[key]["time_series_name"])
+                pass
+                # print("Processing time serie " + configuration[key]["time_series_name"])
             elif key == "timestamps":
                 self.addTimestamp(configuration=configuration[key])
             else:
                 raise ValueError('A key ' + key + " is not defined!")
 
-        self.plotTimeSeries()
+        #self.plotTimeSeries()
 
     def getTimeSerie(self):
         """
@@ -207,5 +209,17 @@ class TimeSeriesGenerator:
         :return: time series in pd.DataFrame
         """
         return self.time_series
+
+    def get_time_series_businesslike(self):
+
+        _ts = self.time_series.copy()
+
+        periods = len(_ts.values.flatten())
+
+        calendar = pd.date_range(start = "20000101", freq = "B", periods=periods)
+
+        time_series = pd.Series(data = _ts.values.flatten(), index = calendar)
+
+        return time_series
 
 
