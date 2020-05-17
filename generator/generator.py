@@ -6,14 +6,13 @@ import json
 
 
 class TimeSeriesGenerator:
-
-    def __init__(self,configuration):
+    def __init__(self, configuration):
         """
         Creates initial time serie data frame
         """
         self.number_of_observations = configuration["number_of_observations"]
 
-    def add_base(self,configuration):
+    def add_base(self, configuration):
         """
         Adds base line time series generated from the random distribution
         :param configuration: configuration of base_line, required keys are base, variance
@@ -22,11 +21,13 @@ class TimeSeriesGenerator:
 
         base = configuration["base"]
         variance = configuration["variance"]
-        self.time_series["base"] = self.time_series["cnt"].apply(lambda obs: obs + np.random.normal(base, variance, 1)[0])
+        self.time_series["base"] = self.time_series["cnt"].apply(
+            lambda obs: obs + np.random.normal(base, variance, 1)[0]
+        )
         self.time_series["cnt"] = self.time_series["cnt"] + self.time_series["base"]
         self.time_series.drop("base", inplace=True, axis=1)
 
-    def add_trend(self,configuration):
+    def add_trend(self, configuration):
         """
         Adds linear trend to time series
         :param configuration: configuration of the trend, required key is "slope"
@@ -35,7 +36,9 @@ class TimeSeriesGenerator:
         slope = configuration["slope"]
         # Create trend
         self.time_series["index"] = self.time_series.index
-        self.time_series["trend"] = self.time_series["index"].apply(lambda observation: slope*observation)
+        self.time_series["trend"] = self.time_series["index"].apply(
+            lambda observation: slope * observation
+        )
         # Add trend to time serie
         self.time_series["cnt"] = self.time_series["cnt"] + self.time_series["trend"]
 
@@ -43,8 +46,7 @@ class TimeSeriesGenerator:
         self.time_series.drop("trend", inplace=True, axis=1)
         self.time_series.drop("index", inplace=True, axis=1)
 
-
-    def add_season(self,configuration):
+    def add_season(self, configuration):
         """
         Adds sinusoid season to a time series.
         :param configuration: configuration of the season required keys are period and height
@@ -55,7 +57,9 @@ class TimeSeriesGenerator:
 
         # Create season
         self.time_series["index"] = self.time_series.index
-        self.time_series["season"] = self.time_series["index"].apply(lambda obs: height * math.sin(obs * 2 * math.pi / period))
+        self.time_series["season"] = self.time_series["index"].apply(
+            lambda obs: height * math.sin(obs * 2 * math.pi / period)
+        )
 
         # Add trend to time serie
         self.time_series["cnt"] = self.time_series["cnt"] + self.time_series["season"]
@@ -64,7 +68,7 @@ class TimeSeriesGenerator:
         self.time_series.drop("season", inplace=True, axis=1)
         self.time_series.drop("index", inplace=True, axis=1)
 
-    def add_nan_values(self,configuration):
+    def add_nan_values(self, configuration):
         """
         Add NA values in the defined interval to a time serie
         :param configuration: configuration of na_values, required keys are ranges. Ranges is an array of dict with "from" and "to" keywords
@@ -74,9 +78,9 @@ class TimeSeriesGenerator:
         for range in ranges:
             start = range["from"]
             end = range["to"]
-            self.time_series["cnt"].iloc[start:end+1] = np.nan
+            self.time_series["cnt"].iloc[start : end + 1] = np.nan
 
-    def add_outliers(self,configuration):
+    def add_outliers(self, configuration):
         """
         Adds anomalies on the specifed location to a time serie
         :param configuration: configuration of annomalies - an array of dicts {"position": <observation number of the anomaly>, "coef": <multiplyer of the original value at the position>}
@@ -86,7 +90,9 @@ class TimeSeriesGenerator:
         for anomaly in anomalies:
             position = anomaly["position"]
             coeficient = anomaly["coef"]
-            self.time_series["cnt"].iloc[position] = self.time_series["cnt"].iloc[position] * coeficient
+            self.time_series["cnt"].iloc[position] = (
+                self.time_series["cnt"].iloc[position] * coeficient
+            )
 
     def add_jumps(self, configuration):
         """
@@ -99,7 +105,9 @@ class TimeSeriesGenerator:
             start = record["from"]
             end = record["to"]
             value = record["value"]
-            self.time_series["cnt"].iloc[start:end+1]= self.time_series["cnt"]+ value
+            self.time_series["cnt"].iloc[start : end + 1] = (
+                self.time_series["cnt"] + value
+            )
 
     def add_timestamp(self, configuration):
         start = configuration["start"]
@@ -107,15 +115,14 @@ class TimeSeriesGenerator:
         # Create season
         self.time_series["index"] = self.time_series.index
         self.time_series["timestamp"] = self.time_series["index"].apply(
-            lambda obs: start + obs*step )
+            lambda obs: start + obs * step
+        )
 
         self.time_series.set_index("timestamp", inplace=True)
-
 
         # Drop dummy columns
         self.time_series.drop("index", inplace=True, axis=1)
         # print(self.time_series.head())
-
 
     def plot(self):
         """
@@ -144,8 +151,8 @@ class TimeSeriesGenerator:
         :return:
         """
         file = open(file_name, "w")
-        for key,values in configuration.items():
-            record = key + " " +  str(values) + "\n"
+        for key, values in configuration.items():
+            record = key + " " + str(values) + "\n"
             file.write(record)
         file.close()
         print("Time series meta " + file_name + " saved.")
@@ -156,10 +163,10 @@ class TimeSeriesGenerator:
         :param file_name: name of the file
         :return:
         """
-        self.time_series.to_csv(file_name, sep=',', index=True)
+        self.time_series.to_csv(file_name, sep=",", index=True)
         print(("Time series " + file_name + " saved."))
 
-    def save(self,configuration):
+    def save(self, configuration):
         """
         Saves all the information about time series. The saved information are time series in csv, meta information, and plot of the time series
         :param configuration: the entire configuration of the time series generator
@@ -167,7 +174,10 @@ class TimeSeriesGenerator:
         """
         meta = configuration["meta"]
         self.to_pdf(file_name=meta["path"] + meta["time_series_name"] + "-plot.pdf")
-        self.save_meta(file_name=meta["path"] + meta["time_series_name"] + "-meta.txt", configuration=configuration)
+        self.save_meta(
+            file_name=meta["path"] + meta["time_series_name"] + "-meta.txt",
+            configuration=configuration,
+        )
         self.to_csv(file_name=meta["path"] + meta["time_series_name"] + ".csv")
 
     def generate(self, configuration):
@@ -199,9 +209,7 @@ class TimeSeriesGenerator:
             elif key == "timestamps":
                 self.add_timestamp(configuration=configuration[key])
             else:
-                raise ValueError('A key ' + key + " is not defined!")
-
-        #self.plotTimeSeries()
+                raise ValueError("A key " + key + " is not defined!")
 
     def get(self):
         """
@@ -216,10 +224,8 @@ class TimeSeriesGenerator:
 
         periods = len(_ts.values.flatten())
 
-        calendar = pd.date_range(start = "20000101", freq = "B", periods=periods)
+        calendar = pd.date_range(start="20000101", freq="B", periods=periods)
 
-        time_series = pd.Series(data = _ts.values.flatten(), index = calendar)
+        time_series = pd.Series(data=_ts.values.flatten(), index=calendar)
 
         return time_series
-
-

@@ -26,4 +26,3 @@ for time_serie_config in configuration["time_series"]:
     generator = TimeSeriesGenerator(time_serie_config["meta"])
     generator.generate(time_serie_config)
     generator.save(time_serie_config)
-
