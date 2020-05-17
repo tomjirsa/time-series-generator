@@ -49,4 +49,30 @@ pip install -r requirements.txt requirements-dev.txt requirements-front.txt
 
 ## Usage
 
-See examples in the `examples` folder. 
+See the `examples` folder. 
+
+```python
+import pandas as pd
+from generator import TimeSeriesGenerator
+
+NUMBER_DAYS = 260
+
+configuration = {
+    "meta": {
+        "number_of_observations": NUMBER_DAYS,
+        "path": "./timeseries/",
+        "time_series_name": "01-base",
+    },
+    "base_line": {"base": 10, "variance": 2},
+    "timestamps": {"start": 0, "step": 1},
+    "trend": {"slope": 0.1},
+    "season": {"height": 5, "period": 21},
+    "breaks": [{"from": 10, "to": 100, "value": 10}],
+}
+
+# Generate time series
+generator = TimeSeriesGenerator(configuration["meta"])
+generator.generate(configuration)
+generator.get()
+generator.get_business_like()
+```
