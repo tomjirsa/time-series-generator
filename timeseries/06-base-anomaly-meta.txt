@@ -1,0 +1,4 @@
+meta {'path': './timeseries/', 'time_series_name': '06-base-anomaly', 'number_of_observations': 10000}
+base_line {'base': 1000, 'variance': 200}
+annomalies [{'position': 2000, 'coef': 2}, {'position': 4000, 'coef': 4}, {'position': 4001, 'coef': 4}, {'position': 6000, 'coef': 0.05}]
+timestamps {'start': 0, 'step': 10}

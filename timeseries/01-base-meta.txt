@@ -1,0 +1,3 @@
+meta {'path': './timeseries/', 'time_series_name': '01-base', 'number_of_observations': 10000}
+base_line {'base': 1000, 'variance': 200}
+timestamps {'start': 0, 'step': 10}

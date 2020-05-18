@@ -1,0 +1,6 @@
+meta {'path': './timeseries/', 'time_series_name': '08-base-trend-season-NA', 'number_of_observations': 10000}
+base_line {'base': 1000, 'variance': 200}
+trend {'slope': 0.1}
+season {'period': 200, 'height': 400}
+na_values {'ranges': [{'from': 2000, 'to': 2100}, {'from': 4000, 'to': 5000}]}
+timestamps {'start': 0, 'step': 10}
